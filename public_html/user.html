@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>User</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <script src="js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://kit.fontawesome.com/755ca2425d.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                background: url(images/thumb444x250-01.jpg) no-repeat center center fixed; 
+                background-size:cover; 
+            }
+            
+            nav ul li a:hover {
+                color: yellow !important;
+            }
+            
+            .btn-primary {
+                background: #333;
+                border: none;
+                transition: 0.9s;
+            }
+            
+            .top {
+                background: #fff;
+            }
+            
+            .btn-info {
+                background: #FF4500; 
+                border: none;
+            }
+            
+            .btn-find {
+                pointer-events: none;
+            }
+            
+            .icon {
+                width: 40px;
+                height: 40px;
+                text-align: center;
+            }
+            
+            .nb {
+                width: 81%;
+            }
+            
+            .search {
+                width: 350px !important;
+            }
+            
+            nav {
+                background: #FF4500;
+            }
+            
+            .page-footer {
+                background: #459ba7; 
+                font-size: 14px;
+            }
+            
+            #myBtn {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 30px;
+                z-index: 99;
+                font-size: 30px;
+                border: none;
+                outline: none;
+                background: rgb(128,128,128,0.5);
+                color: white;
+                cursor: pointer;
+                text-align: center;
+                width: 50px;
+                height: 50px;
+                border-radius: 4px;
+            }
+            
+            .path {
+                background: #459ba7;
+                color: #fff;
+            }
+            
+            .option {
+                margin-bottom: 200px;
+            }
+            
+            .border-w {
+                border-width: 3px !important;
+            }
+            
+            .special {
+                list-style: none;
+            }
+            
+            .special li::before {
+                content: "\2022";
+                color: green;
+                font-size: 20px;
+                display: inline-block; 
+                width: 1em;
+                margin-left: -1em;
+                pading: 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up fa-lg"></i></button>
+        <header>
+            <div class="container-fluid row p-5">
+                <div class="mr-3">
+                    <a href="home.html" title="Manga Online">
+                        <img src="images/logo.png" alt="Manga Online" title="Manga Online">
+                    </a>
+                </div>
+                <div class="nb">
+                    <div class="row mb-1">
+                        <form class="form-inline">
+                            <button class="btn btn-info btn-md my-2 my-sm-0 ml-3 btn-find">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="md-form my-0">
+                                <input class="form-control mr-sm-2 shadow-none search" type="text" placeholder="Search Manga..." aria-label="Search">
+                            </div>
+                        </form>
+                        <div class="bg-light text-center p-2">
+                            <i class="fas fa-user text-dark"></i> 
+                        </div>
+                        <div class="bg-info p-2 text-white">Shen Loong</div>
+                        <a class="bg-info p-2 ml-2 text-white rounded-circle icon" href="bookmark.html" title="Bookmark"><i class="fas fa-bell fa-lg"></i></a>
+                        <a class="bg-info p-2 ml-2 text-white rounded-circle icon" href="history.html" title="History"><i class="fa fa-history fa-lg" aria-hidden="true"></i></a>
+                        <a class="bg-light p-2 ml-2 text-danger rounded-circle icon" href="#" title="Log out"><i class="fas fa-power-off fa-lg"></i></a>
+                    </div>
+                    <nav class="navbar navbar-expand-sm">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active"><a class="nav-link text-white" href="home.html">HOME</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="latest_updates.html">LATEST MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="hot_manga.html">HOT MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="new_manga.html">NEW MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="completed_manga.html">COMPLETED MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="home.html">MANGAKAKALOT</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div class="container p-2 path">
+            <a class="text-white" href="home.html" title="Manga Online">Manga Online</a> 
+            <i class="fas fa-angle-double-right"></i> User
+        </div>
+        <div class="container d-block">
+            <div class="row">
+                <div class="p-3 col-8 bg-light">
+                    <span class="h3">
+                        Logged in successfully.<br>
+                        Hello <b>Shen Loong</b>. <br>
+                        <a class="text-danger text-decoration-none" href="home.html">Click here</a> go visit our homepage. 
+                        <a class="text-danger text-decoration-none" href="home.html">Mangakakalot.com</a>
+                    </span>
+                </div>
+                <div class="mt-2 col-4 bg-light option border-top border-success border-w">
+                    <ul class="special">
+                        <li><a class="text-dark text-decoration-none" href="">Update Profile</a></li>
+                        <li><a class="text-dark text-decoration-none" href="">Changes Password</a></li>
+                        <li><a class="text-dark text-decoration-none" href="">Bookmark</a></li>
+                        <li><a class="text-dark text-decoration-none" href="">History</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><br>
+        <footer class="page-footer sticky-footer-wrapper">
+            <div class="container-fluid py-3 px-5 text-white">
+                <h6>Why You Should Read Manga Online at Mangakakalot.com ?</h6>
+                <p class="text-justify">
+                    There are many reasons you should read Manga online, and if you are a fan of this unique 
+                    storytelling style then learning about them is a must. One of the biggest reasons why you 
+                    should read Manga online is the money it can save you. While there's nothing like actually 
+                    holding a book in your hands, there's also no denying that the cost of those books can add 
+                    up quickly. So why not join the digital age and read Manga online? Another big reason to read 
+                    Manga online is the huge amount of material that is available. When you go to a comic store or 
+                    other book store their shelves are limited by the space that they have. When you go to an online 
+                    site to read Manga those limitations don't exist. So if you want the best selection and you also 
+                    want to save money then reading Manga online should be an obvious choice for you. <br>
+                    ©2019 Mangakakalot.com, all rights reserved. Top speed, completely free. <br>
+                    If you have questions about anything or advertising, please contact us at <b>mangakakalot@gmail.com</b>
+                </p>
+            </div>
+        </footer>
+        <script>
+            //Get the button
+            var mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Online Manga List - New Manga</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <script src="js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://kit.fontawesome.com/755ca2425d.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                background: url(images/thumb444x250-01.jpg) no-repeat center center fixed; 
+                background-size:cover; 
+            }
+            
+            .mynavi a:hover {
+                color: yellow !important;
+            }
+            
+            .btn-primary {
+                background: #333;
+                border: none;
+                transition: 0.9s;
+            }
+            
+            .top {
+                background: #fff;
+            }
+            
+            .btn-info {
+                background: #FF4500; 
+                border: none;
+            }
+            
+            .btn-find {
+                pointer-events: none;
+            }
+            
+            .btn-find:hover {
+                background: #FF4500; 
+            }
+            
+            .btn-logreg:hover {
+                background: #4ee44e;
+            }
+            
+            .nb {
+                width: 81%;
+            }
+            
+            .search {
+                width: 350px !important;
+            }
+            
+            .mynavi {
+                background: #FF4500;
+            }
+            
+            .page-footer {
+                background: #459ba7; 
+                font-size: 14px;
+            }
+            
+            .border-w {
+                border-width: 3px !important;
+            }
+            
+            /*Carousel CSS*/
+            .MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
+            .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+            .MultiCarousel .MultiCarousel-inner .item { float: left; width: 135px !important; display: inline-block; margin: 3px; position: relative; }
+            .MultiCarousel .leftLst, .MultiCarousel .rightLst { outline: none; position:absolute; top:calc(50% - 20px); }
+            .MultiCarousel .leftLst { left:0; }
+            .MultiCarousel .rightLst { right:0; }
+            .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
+            
+            .fit-image{
+                width: 135px;
+                height: 202px;
+                object-fit: cover;
+            }
+            
+            .caption {
+                position: absolute;
+                z-index: 999;
+                bottom: 0;
+                background: rgba(0,0,0,0.6);
+                line-height: 1em;
+                padding: 5px;
+            }
+            
+            .caption a {
+                color: #fff;
+                font-size: small;
+            }
+            
+            .caption a:hover {
+                text-decoration: none;
+            }
+            /*-------------------------------------------------------------------------------------------------*/
+            #myBtn {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 30px;
+                z-index: 99;
+                font-size: 30px;
+                border: none;
+                outline: none;
+                background: rgb(128,128,128,0.5);
+                color: white;
+                cursor: pointer;
+                text-align: center;
+                width: 50px;
+                height: 50px;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0"></script>
+        <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up fa-lg"></i></button>
+        <header>
+            <div class="container-fluid row p-5">
+                <div class="mr-3">
+                    <a href="home.html" title="Manga Online">
+                        <img src="images/logo.png" alt="Manga Online" title="Manga Online">
+                    </a>
+                </div>
+                <div class="nb">
+                    <div class="row mb-1">
+                        <form class="form-inline">
+                            <button class="btn btn-info btn-md my-2 my-sm-0 ml-3 btn-find">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="md-form my-0">
+                                <input class="form-control mr-sm-2 shadow-none search" type="text" placeholder="Search Manga..." aria-label="Search">
+                            </div>
+                        </form>
+                        <a href="login.html" class="btn btn-primary btn-md mr-3 shadow-none btn-logreg">
+                            Login <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        </a>
+                        <a href="register.html" class="btn btn-primary shadow-none btn-logreg">
+                            Register <i class="fa fa-registered" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <nav class="navbar navbar-expand-sm mynavi">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active"><a class="nav-link text-white" href="home.html">HOME</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="latest_updates.html">LATEST MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="hot_manga.html">HOT MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="new_manga.html">NEW MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="completed_manga.html">COMPLETED MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="home.html">MANGAKAKALOT</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div class="container mt-0">
+            <div class="border-top border-w" style="border-color: #FF4500 !important;">
+                <h6 class="text-white d-inline-block p-2" style="background: #FF4500;">
+                    <i class="fas fa-thumbs-up"></i> Popular Manga
+                </h6>
+            </div>
+            <div class="row">
+                <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                    <div class="MultiCarousel-inner">
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="info.html" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>    
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                            <div class="caption">
+                                <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary leftLst"><i class="fas fa-angle-left fa-lg"></i></button>
+                    <button class="btn btn-primary rightLst"><i class="fas fa-angle-right fa-lg"></i></button>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                var itemsMainDiv = ('.MultiCarousel');
+                var itemsDiv = ('.MultiCarousel-inner');
+                var itemWidth = "";
+                $('.leftLst, .rightLst').click(function () {
+                    var condition = $(this).hasClass("leftLst");
+                    if (condition)
+                        click(0, this);
+                    else
+                        click(1, this)
+                });
+                ResCarouselSize();
+                $(window).resize(function () {
+                    ResCarouselSize();
+                });
+                //this function define the size of the items
+                function ResCarouselSize() {
+                    var incno = 0;
+                    var dataItems = ("data-items");
+                    var itemClass = ('.item');
+                    var id = 0;
+                    var btnParentSb = '';
+                    var itemsSplit = '';
+                    var sampwidth = $(itemsMainDiv).width();
+                    var bodyWidth = $('body').width();
+                    $(itemsDiv).each(function () {
+                        id = id + 1;
+                        var itemNumbers = $(this).find(itemClass).length;
+                        btnParentSb = $(this).parent().attr(dataItems);
+                        itemsSplit = btnParentSb.split(',');
+                        $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+                        if (bodyWidth >= 1200) {
+                            incno = itemsSplit[3];
+                            itemWidth = sampwidth / incno;
+                        }
+                        else if (bodyWidth >= 992) {
+                            incno = itemsSplit[2];
+                            itemWidth = sampwidth / incno;
+                        }
+                        else if (bodyWidth >= 768) {
+                            incno = itemsSplit[1];
+                            itemWidth = sampwidth / incno;
+                        }
+                        else {
+                            incno = itemsSplit[0];
+                            itemWidth = sampwidth / incno;
+                        }
+                        $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+                        $(this).find(itemClass).each(function () {
+                            $(this).outerWidth(itemWidth);
+                        });
+                        $(".leftLst").addClass("over");
+                        $(".rightLst").removeClass("over");
+                    });
+                }
+                //this function used to move the items
+                function ResCarousel(e, el, s) {
+                    var leftBtn = ('.leftLst');
+                    var rightBtn = ('.rightLst');
+                    var translateXval = '';
+                    var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                    var values = divStyle.match(/-?[\d\.]+/g);
+                    var xds = Math.abs(values[4]);
+                    if (e == 0) {
+                        translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                        $(el + ' ' + rightBtn).removeClass("over");
+
+                        if (translateXval <= itemWidth / 2) {
+                            translateXval = 0;
+                            $(el + ' ' + leftBtn).addClass("over");
+                        }
+                    }
+                    else if (e == 1) {
+                        var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                        translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                        $(el + ' ' + leftBtn).removeClass("over");
+
+                        if (translateXval >= itemsCondition - itemWidth / 2) {
+                            translateXval = itemsCondition;
+                            $(el + ' ' + rightBtn).addClass("over");
+                        }
+                    }
+                    $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+                }
+                //It is used to get some elements from btn
+                function click(ell, ee) {
+                    var Parent = "#" + $(ee).parent().attr("id");
+                    var slide = $(Parent).attr("data-slide");
+                    ResCarousel(ell, Parent, slide);
+                }
+                });
+            </script>
+            <div class="text-white bg-primary p-2">
+                <a class="text-white" href="home.html" title="Manga Online">Manga Online</a> <i class="fas fa-angle-double-right"></i> 
+                <a class="text-white" href="#">Category: All</a> <i class="fas fa-angle-double-right"></i>
+                <a class="text-white" href="#">Status: All</a> <i class="fas fa-angle-double-right"></i>
+                <a class="text-white" href="new_manga.html">New Manga</a> <i class="fas fa-angle-double-right"></i> 
+                <span class="text-white">Page 1</span>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="info.html">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card flex-md-row py-3">
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container-fluid col-sm-4 float-left">
+                        <a href="https://mangakakalot.com/manga/xk919132">
+                            <img class="card-img-left img-fluid img-responsive img-thumbnail" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                        </a>
+                    </div>
+                    <div class="info">
+                        <span class="h5"><a class="text-dark" href="info.html"><b>Heaven Defying Sword</b></a></span><br>
+                        <span style="font-size: 14px;">
+                            <a href="" class="text-decoration-none" >Chapter 213</a><br>
+                            <i class="fas fa-eye"></i> 3,846,710<br>
+                            Witches suddenly declare war against humans, causing two-thirds of the world to fall 
+                            apart. They summon monsters called "Supporters" and devastate human residences but why? 
+                            Survivors gather people with the power to combat <small><a style="color: #FF4500;" href="">more</a></small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <span class="d-inline-block bg-primary p-2 text-white" style="font-size: 13px;">Total: 24,189 STORIES</span>
+            <nav class="float-right" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+            <div class="table-responsive">
+                <table class="table table-borderless table-sm table-light">
+                    <tbody>
+                        <tr>
+                            <td><a class="text-danger p-2" href="#"><b>ALL</b></a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Action</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Adult</a></td>
+                            <td><a class="text-dark p-2" href="#">Adventure</a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Comedy</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Cooking</a></td>
+                            <td><a class="text-dark p-2" href="#">Doujinshi</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="text-primary p-2" href="#"><b>Drama</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Ecchi</a></td>
+                            <td><a class="text-dark p-2" href="#">Fantasy</a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Gender bender</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Harem</a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Historical</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Horror</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">Isekai</a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Josei</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Manhua</a></td>
+                            <td><a class="text-dark p-2" href="#">Manhwa</a></td>
+                            <td><a class="text-dark p-2" href="#">Martial Arts</a></td>
+                            <td><a class="text-dark p-2" href="#">Mature</a></td>
+                            <td><a class="text-dark p-2" href="#">Mecha</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">Medical</a></td>
+                            <td><a class="text-primary p-2" href="#"><b>Mystery</b></a></td>
+                            <td><a class="text-primary p-2" href="#"><b>One shot</b></a></td>
+                            <td><a class="text-dark p-2" href="#">Psychological</a></td>
+                            <td><a class="text-dark p-2" href="#">Romance</a></td>
+                            <td><a class="text-dark p-2" href="#">School life</a></td>
+                            <td><a class="text-dark p-2" href="#">Sci fi</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">Seinen</a></td>
+                            <td><a class="text-dark p-2" href="#">Shoujo</a></td>
+                            <td><a class="text-dark p-2" href="#">Shoujo ai</a></td>
+                            <td><a class="text-dark p-2" href="#">Shounen</a></td>
+                            <td><a class="text-dark p-2" href="#">Shounen ai</a></td>
+                            <td><a class="text-dark p-2" href="#">Slice of life</a></td>
+                            <td><a class="text-dark p-2" href="#">Smut</a></td>
+                        </tr>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">Sports</a></td>
+                            <td><a class="text-dark p-2" href="#">Supernatural</a></td>
+                            <td><a class="text-dark p-2" href="#">Tragedy</a></td>
+                            <td><a class="text-dark p-2" href="#">Webtoons</a></td>
+                            <td><a class="text-dark p-2" href="#">Yaoi</a></td>
+                            <td><a class="text-dark p-2" href="#">Yuri</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-sm table-light">
+                    <tbody>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">Newest</a></td>
+                            <td><a class="text-dark p-2" href="#">Latest</a></td>
+                            <td><a class="text-dark p-2" href="#">Top read</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-sm table-light">
+                    <tbody>
+                        <tr>
+                            <td><a class="text-dark p-2" href="#">ALL</a></td>
+                            <td><a class="text-dark p-2" href="#">Completed</a></td>
+                            <td><a class="text-dark p-2" href="#">Ongoing</a></td>
+                            <td><a class="text-dark p-2" href="#">Dropped</a></td>
+                            <td><a class="text-dark p-2" href="#">Unknown</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="fb-comments bg-light p-2" data-href="http://localhost:8383/Mangakakalot/info.html" data-width="100%" data-numposts="10"></div>
+        </div><br>
+        <footer class="page-footer sticky-footer-wrapper">
+            <div class="container-fluid py-3 px-5 text-white">
+                <h6>Why You Should Read Manga Online at Mangakakalot.com ?</h6>
+                <p class="text-justify">
+                    There are many reasons you should read Manga online, and if you are a fan of this unique 
+                    storytelling style then learning about them is a must. One of the biggest reasons why you 
+                    should read Manga online is the money it can save you. While there's nothing like actually 
+                    holding a book in your hands, there's also no denying that the cost of those books can add 
+                    up quickly. So why not join the digital age and read Manga online? Another big reason to read 
+                    Manga online is the huge amount of material that is available. When you go to a comic store or 
+                    other book store their shelves are limited by the space that they have. When you go to an online 
+                    site to read Manga those limitations don't exist. So if you want the best selection and you also 
+                    want to save money then reading Manga online should be an obvious choice for you. <br>
+                    ©2019 Mangakakalot.com, all rights reserved. Top speed, completely free. <br>
+                    If you have questions about anything or advertising, please contact us at <b>mangakakalot@gmail.com</b>
+                </p>
+            </div>
+        </footer>
+        <script>
+            //Get the button
+            var mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }
+        </script>
+    </body>
+</html>

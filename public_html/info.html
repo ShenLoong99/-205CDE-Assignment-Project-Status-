@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Manga Info</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="images/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <script src="js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://kit.fontawesome.com/755ca2425d.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                background: url(images/thumb444x250-01.jpg) no-repeat center center fixed; 
+                background-size:cover; 
+                background-repeat: no-repeat; 
+            }
+            
+            nav ul li a:hover {
+                color: yellow !important;
+            }
+            
+            .btn-primary {
+                background: #333;
+                border: none;
+                transition: 0.9s;
+            }
+            
+            .top {
+                background: #fff;
+            }
+            
+            .btn-info {
+                background: #FF4500; 
+                border: none;
+            }
+            
+            .btn-find {
+                pointer-events: none;
+            }
+            
+            .btn-find:hover {
+                background: #FF4500; 
+            }
+            
+            .btn-logreg:hover {
+                background: #4ee44e;
+            }
+            
+            .nb {
+                width: 81%;
+            }
+            
+            .search {
+                width: 350px !important;
+            }
+            
+            nav {
+                background: #FF4500;
+            }
+            
+            .page-footer {
+                background: #459ba7; 
+                font-size: 14px;
+            }
+            /*Carousel CSS*/
+            .MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
+            .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+            .MultiCarousel .MultiCarousel-inner .item { float: left; width: 135px !important; display: inline-block; margin: 3px; position: relative; }
+            .MultiCarousel .leftLst, .MultiCarousel .rightLst { outline: none; position:absolute; top:calc(50% - 20px); }
+            .MultiCarousel .leftLst { left:0; }
+            .MultiCarousel .rightLst { right:0; }
+            .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
+            
+            .fit-image{
+                width: 135px;
+                height: 202px;
+                object-fit: cover;
+            }
+            
+            .caption {
+                position: absolute;
+                z-index: 999;
+                bottom: 0;
+                background: rgba(0,0,0,0.6);
+                line-height: 1em;
+                padding: 5px;
+            }
+            
+            .caption a {
+                color: #fff;
+                font-size: small;
+            }
+            
+            .caption a:hover {
+                text-decoration: none;
+            }
+            /*--------------------------------------------------------------------------------------------*/
+            .border-w {
+                border-width: 3px !important;
+            }
+            
+            .btn-link {
+                display: inline-block;
+                background: green;
+                padding: 10px;
+                width: 100%;
+                border-radius: 5px;
+                text-align: center;
+                box-shadow: 
+                    inset 0 -3em 3em rgba(0,0,0,0.1), 
+                          0 0  0 2px rgb(255,255,255),
+                          0.3em 0.3em 1em rgba(0,0,0,0.3);
+            }
+            
+            .btn-link:hover {
+                text-decoration: none;
+                color: #fff;
+            }
+            
+            .aside a{
+                color: #fff;
+            }
+            
+            .aside a:hover {
+                text-decoration: none;
+                text-shadow: 2px 2px #000;
+            }
+            
+            .genre a{
+                color: #000;
+            }
+            
+            .genre a:hover {
+                color: #CCCC00 !important;;
+                text-decoration: none;
+            }
+            
+            .thead-manga {
+                border-width: 3px !important;
+            }
+            
+            .chapter a {
+                color: #333;
+            }
+            
+            .chapter a:hover {
+                color: #FF4500;
+                text-decoration: none;
+            }
+            
+            #myBtn {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 30px;
+                z-index: 99;
+                font-size: 30px;
+                border: none;
+                outline: none;
+                background: rgb(128,128,128,0.5);
+                color: white;
+                cursor: pointer;
+                text-align: center;
+                width: 50px;
+                height: 50px;
+                border-radius: 4px;
+            }
+            
+            .bookmark {
+                width: 60%;
+                height: 60%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0"></script>
+        <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up fa-lg"></i></button>
+        <header>
+            <div class="container-fluid row p-5">
+                <div class="mr-3">
+                    <a href="home.html" title="Manga Online">
+                        <img src="images/logo.png" alt="Manga Online" title="Manga Online">
+                    </a>
+                </div>
+                <div class="nb">
+                    <div class="row mb-1">
+                        <form class="form-inline">
+                            <button class="btn btn-info btn-md my-2 my-sm-0 ml-3 btn-find">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="md-form my-0">
+                                <input class="form-control mr-sm-2 shadow-none search" type="text" placeholder="Search Manga..." aria-label="Search">
+                            </div>
+                        </form>
+                        <a href="login.html" class="btn btn-primary btn-md mr-3 shadow-none btn-logreg">
+                            Login <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        </a>
+                        <a href="register.html" class="btn btn-primary shadow-none btn-logreg">
+                            Register <i class="fa fa-registered" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <nav class="navbar navbar-expand-sm">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active"><a class="nav-link text-white" href="home.html">HOME</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="#">LATEST MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="#">HOT MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="#">NEW MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="#">COMPLETED MANGA</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="home.html">MANGAKAKALOT</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="container mt-0">
+                <div class="border-top border-w" style="border-color: #FF4500 !important;">
+                    <h6 class="text-white d-inline-block p-2" style="background: #FF4500;">
+                        <i class="fas fa-thumbs-up"></i> Popular Manga
+                    </h6>
+                </div>
+                <div class="row">
+                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                        <div class="MultiCarousel-inner">
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="info.html" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>    
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive fit-image" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword" title="Heaven Defying Sword">
+                                <div class="caption">
+                                    <h6><a href="https://mangakakalot.com/manga/uy920447" title="Heaven Defying Sword">Heaven Defying Sword</a></h6>
+                                    <a href="https://mangakakalot.com/chapter/uy920447/chapter_67" title="Chapter 67: Complete Defeat">Chapter 67</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary leftLst"><i class="fas fa-angle-left fa-lg"></i></button>
+                        <button class="btn btn-primary rightLst"><i class="fas fa-angle-right fa-lg"></i></button>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        var itemsMainDiv = ('.MultiCarousel');
+                        var itemsDiv = ('.MultiCarousel-inner');
+                        var itemWidth = "";
+                        $('.leftLst, .rightLst').click(function () {
+                            var condition = $(this).hasClass("leftLst");
+                            if (condition)
+                                click(0, this);
+                            else
+                                click(1, this)
+                        });
+                        ResCarouselSize();
+                        $(window).resize(function () {
+                            ResCarouselSize();
+                        });
+                        //this function define the size of the items
+                        function ResCarouselSize() {
+                            var incno = 0;
+                            var dataItems = ("data-items");
+                            var itemClass = ('.item');
+                            var id = 0;
+                            var btnParentSb = '';
+                            var itemsSplit = '';
+                            var sampwidth = $(itemsMainDiv).width();
+                            var bodyWidth = $('body').width();
+                            $(itemsDiv).each(function () {
+                                id = id + 1;
+                                var itemNumbers = $(this).find(itemClass).length;
+                                btnParentSb = $(this).parent().attr(dataItems);
+                                itemsSplit = btnParentSb.split(',');
+                                $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+                                if (bodyWidth >= 1200) {
+                                    incno = itemsSplit[3];
+                                    itemWidth = sampwidth / incno;
+                                } else if (bodyWidth >= 992) {
+                                    incno = itemsSplit[2];
+                                    itemWidth = sampwidth / incno;
+                                } else if (bodyWidth >= 768) {
+                                    incno = itemsSplit[1];
+                                    itemWidth = sampwidth / incno;
+                                } else {
+                                    incno = itemsSplit[0];
+                                    itemWidth = sampwidth / incno;
+                                }
+                                $(this).css({'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers});
+                                $(this).find(itemClass).each(function () {
+                                    $(this).outerWidth(itemWidth);
+                                });
+                                $(".leftLst").addClass("over");
+                                $(".rightLst").removeClass("over");
+                            });
+                        }
+                        //this function used to move the items
+                        function ResCarousel(e, el, s) {
+                            var leftBtn = ('.leftLst');
+                            var rightBtn = ('.rightLst');
+                            var translateXval = '';
+                            var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                            var values = divStyle.match(/-?[\d\.]+/g);
+                            var xds = Math.abs(values[4]);
+                            if (e == 0) {
+                                translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                                $(el + ' ' + rightBtn).removeClass("over");
+
+                                if (translateXval <= itemWidth / 2) {
+                                    translateXval = 0;
+                                    $(el + ' ' + leftBtn).addClass("over");
+                                }
+                            } else if (e == 1) {
+                                var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                                translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                                $(el + ' ' + leftBtn).removeClass("over");
+
+                                if (translateXval >= itemsCondition - itemWidth / 2) {
+                                    translateXval = itemsCondition;
+                                    $(el + ' ' + rightBtn).addClass("over");
+                                }
+                            }
+                            $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+                        }
+                        //It is used to get some elements from btn
+                        function click(ell, ee) {
+                            var Parent = "#" + $(ee).parent().attr("id");
+                            var slide = $(Parent).attr("data-slide");
+                            ResCarousel(ell, Parent, slide);
+                        }
+                    });
+                </script>
+                <div class="row">
+                    <div class="col-md-7 bg-light p-3">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250 p-3">
+                            <div class="chapter">
+                                <img class="card-img-left flex-auto d-none d-md-block" src="images/manga covers/1846-uy920447.jpg" alt="Heaven Defying Sword"><br>
+                                <a class="btn-link text-white" href="#chapter-list">CHAPTER LIST</a>
+                            </div>
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <h3><b>Heaven Defying Sword</b></h3>
+                                <small class="h6">Alternative : 剑逆苍穹,KIẾM NGHỊCH THƯƠNG KHUNG,السيف الماحي للسماء</small>
+                                <div>
+                                    Author(s) : 
+                                    <a href='https://mangakakalot.com/search_author/OztmZW5ncWlkb25nbWFu'>FengQiDongMan</a>
+                                </div>
+                                Status : Ongoing<br>
+                                Last updated : Sep-30-2019 12:16:45 PM<br>
+                                View : 3,378,594<br>
+                                <p>Genres : 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=2&state=all&page=1'>Action</a>, 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=4&state=all&page=1'>Adventure</a>, 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=10&state=all&page=1'>Drama</a>, 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=12&state=all&page=1'>Fantasy</a>, 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=19&state=all&page=1'>Martial arts</a>, 
+                                    <a rel='nofollow' href='https://mangakakalot.com/manga_list?type=newest&category=38&state=all&page=1'>Supernatural</a>
+                                </p>
+                                <p><span>Rating : </span> 
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i></p>
+                                <small>Mangakakalot.com rate : 4.7/ 5 - 224 votes</small>
+                                <a href="#"><img class="img-responsive bookmark" src="images/theodoi.png" alt="bookmark"></a>
+                                <div class="fb-save" data-uri="http://localhost:8383/Mangakakalot/info.html" data-size="small"></div>
+                                <div class="fb-like" data-href="http://localhost:8383/Mangakakalot/info.html" data-width="1" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                            </div>
+                        </div>
+                        <hr style="border-top: dotted 1px red;">
+                        <div class="px-3">
+                            <p style="color: red;">Heaven Defying Sword summary: </p>
+                            To defeat his uncle who destroyed his family, the teenager Xuan Tian embarked on a martial arts 
+                            training journey to hone his sword techniques. From a teenager who knew nothing to a Sword God of 
+                            his generation, those he once saw as strong are now mere specks of dust to him. With one finger, 
+                            I obliterate all; With my sword, I defy the heavens! And his path, leads him directly to the limitless 
+                            heavens!
+                        </div><br>
+                        <div class="table-responsive">
+                            <table class="table table-sm chapter">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><a name="chapter-list">Chapter Name</a></th>
+                                        <th scope="col">View</th>
+                                        <th scope="col">Time uploaded</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="https://mangakakalot.com/chapter/uy920447/chapter_10" title="Heaven Defying Sword Chapter 10: Victory in One Move">Chapter 10: Victory in One Move</a></td>
+                                        <td>19,148</td>
+                                        <td>8 hour ago</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="fb-comments" data-href="http://localhost:8383/Mangakakalot/info.html" data-width="" data-numposts="10"></div>
+                    </div>
+                    <aside class="p-3">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-sm aside">
+                                <thead class="border-top border-w border-danger">
+                                    <tr>
+                                        <th class="d-inline-block bg-danger text-white">Most Popular Manga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-primary"><a href="https://mangakakalot.com/manga/cd919002" title="Metropolitan System">Metropolitan System - Vol.1 Chapter 129</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-success"><a href="https://mangakakalot.com/manga/gd920457" title="Rebirth Of The Urban Immortal Cultivator">Rebirth Of The Urban Immortal Cultivator - Chapter 131</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-warning"><a href="https://mangakakalot.com/manga/ve920468" title="Incomparable Demon King">Incomparable Demon King - Chapter 99</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-danger"><a href="https://mangakakalot.com/manga/versatile_mage" title="Versatile Mage">Versatile Mage - Chapter 250</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-info"><a href="https://mangakakalot.com/manga/tz920603" title="The Strongest War God">The Strongest War God - Chapter 77</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-primary"><a href="https://mangakakalot.com/manga/tales_of_demons_and_gods" title="Tales of Demons and Gods">Tales of Demons and Gods - Chapter 243</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-success"><a href="https://mangakakalot.com/manga/apotheosis" title="Apotheosis">Apotheosis - Chapter 345</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-warning"><a href="https://mangakakalot.com/manga/isekai_tensei_soudouki" title="Isekai Tensei Soudouki">Isekai Tensei Soudouki - Chapter 49</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-danger"><a href="https://mangakakalot.com/manga/yong_heng_zhi_zun" title="Yong Heng Zhi Zun">Yong Heng Zhi Zun - Chapter 198</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bg-info"><a href="https://mangakakalot.com/manga/strongest_anti_meta" title="Strongest Anti M.E.T.A">Strongest Anti M.E.T.A - Chapter 72</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-borderless table-sm genre">
+                                <thead class="border-top border-w border-primary">
+                                    <tr>
+                                        <th class="d-inline-block bg-primary text-white">
+                                            <i class="fas fa-tags"></i> GENRES
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-light">
+                                    <tr class="border-bottom border-w border-danger ">
+                                        <td><a class="text-danger" href="#"><b>Latest</b></a></td>
+                                        <td><a href="#">Newest</a></td>
+                                        <td><a href="#">Top view</a></td>
+                                    </tr>
+                                    <tr class="border-bottom border-w border-danger">
+                                        <td><a class="text-danger" href="#"><b>ALL</b></a></td>
+                                        <td><a href="#">Completed</a></td>
+                                        <td><a href="#">Ongoing</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="text-danger" href="#"><b>ALL</b></a></td>
+                                        <td><a href="#">Action</a></td>
+                                        <td><a href="#">Adult</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Adventure</a></td>
+                                        <td><a href="#">Comedy</a></td>
+                                        <td><a href="#">Cooking</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Doujinshi</a></td>
+                                        <td><a href="#">Drama</a></td>
+                                        <td><a href="#">Ecchi</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Fantasy</a></td>
+                                        <td><a href="#">Gender bender</a></td>
+                                        <td><a href="#">Harem</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Historical</a></td>
+                                        <td><a href="#">Horror</a></td>
+                                        <td><a href="#">Isekai</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Josei</a></td>
+                                        <td><a href="#">Manhua</a></td>
+                                        <td><a href="#">Manhwa</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Martial arts</a></td>
+                                        <td><a href="#">Mature</a></td>
+                                        <td><a href="#">Mecha</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Medical</a></td>
+                                        <td><a href="#">Mystery</a></td>
+                                        <td><a href="#">One shot</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Psychological</a></td>
+                                        <td><a href="#">Romance</a></td>
+                                        <td><a href="#">School life</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Sci fi</a></td>
+                                        <td><a href="#">Seinen</a></td>
+                                        <td><a href="#">Shoujo</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Shoujo ai</a></td>
+                                        <td><a href="#">Shounen</a></td>
+                                        <td><a href="#">Shounen ai</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Slice of life</a></td>
+                                        <td><a href="#">Smut</a></td>
+                                        <td><a href="#">Sports</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Supernatural</a></td>
+                                        <td><a href="#">Tragedy</a></td>
+                                        <td><a href="#">Webtoons</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Yaoi</a></td>
+                                        <td><a href="#">Yuri</a></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section><br>
+        <footer class="page-footer sticky-footer-wrapper">
+            <div class="container-fluid py-3 px-5 text-white">
+                <h6>Why You Should Read Manga Online at Mangakakalot.com ?</h6>
+                <p class="text-justify">
+                    There are many reasons you should read Manga online, and if you are a fan of this unique 
+                    storytelling style then learning about them is a must. One of the biggest reasons why you 
+                    should read Manga online is the money it can save you. While there's nothing like actually 
+                    holding a book in your hands, there's also no denying that the cost of those books can add 
+                    up quickly. So why not join the digital age and read Manga online? Another big reason to read 
+                    Manga online is the huge amount of material that is available. When you go to a comic store or 
+                    other book store their shelves are limited by the space that they have. When you go to an online 
+                    site to read Manga those limitations don't exist. So if you want the best selection and you also 
+                    want to save money then reading Manga online should be an obvious choice for you. <br>
+                    ©2019 Mangakakalot.com, all rights reserved. Top speed, completely free. <br>
+                    If you have questions about anything or advertising, please contact us at <b>mangakakalot@gmail.com</b>
+                </p>
+            </div>
+        </footer>
+        <script>
+            //Get the button
+            var mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }
+        </script>
+    </body>
+</html>
